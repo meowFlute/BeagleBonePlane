@@ -1,0 +1,15 @@
+*.db
+*.sln
+*.vgdbsettings
+*.vcxproj
+*.filters
+*.alldeps
+*.msbuild-mak
+*.dat
+*.npa01
+*.npd
+*.rdb
+*.000
+*.001
+*.lck
+*.npa00
