@@ -1,6 +1,8 @@
 #ifndef MPU6050_H
 #define MPU6050_H
 
+#include "I2C_Device.h"
+
 //buffer size
 #define MPU6050_I2C_BUFFER_SIZE 14
 
@@ -93,12 +95,9 @@
 #define	ACCELRANGE_plus_minus_8g		0b00010000
 #define	ACCELRANGE_plus_minus_16g		0b00011000
 
-class MPU6050
+template<int buffer_size> class MPU6050 : public I2C_Device<buffer_size>
 {
 private:
-	int I2CBus, I2CAddress;
-	unsigned char dataBuffer[MPU6050_I2C_BUFFER_SIZE];
-	
 	int accelerationX;
 	int accelerationY;
 	int accelerationZ;
@@ -116,13 +115,7 @@ private:
 	int gyro_range;
 	unsigned char gyro_range_byte;
 	int accel_range;
-	unsigned char accel_range_byte;
-	
-	int convertTwosComplementToInt(unsigned char msb, unsigned char lsb);
-	int convert16bitSignedValueToInt(unsigned char msb, unsigned char lsb);
-	int writeI2CDeviceByte(char address, char value);
-	int readI2CDeviceBytes(char startAddress, int numBytesToRead);
-	
+	unsigned char accel_range_byte;	
 public:
 	MPU6050(int bus, int address, char power_state, char sample_rate, char filter_bandwidth, char gyro_range, char accel_range);
 	
