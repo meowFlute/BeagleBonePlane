@@ -27,7 +27,7 @@
 
 using namespace std;
 
-template<int buffer_size> MPU6050<buffer_size>::MPU6050(int bus, int address, char power_state, char sample_rate, char filter_bandwidth, char gyro_range, char accel_range)
+MPU6050::MPU6050(int bus, int address, char power_state, char sample_rate, char filter_bandwidth, char gyro_range, char accel_range)
 {
 	this->I2CBus = bus;
 	this->I2CAddress = address;
@@ -45,7 +45,7 @@ template<int buffer_size> MPU6050<buffer_size>::MPU6050(int bus, int address, ch
 	readFullSensorState();
 }
 	
-template<int buffer_size> int MPU6050<buffer_size>::readFullSensorState()
+int MPU6050::readFullSensorState()
 {
 	//read the data into the data buffer using our handy burst-read function
 	int status = this->readI2CDeviceBytes(MPU6050_ACCEL_XOUT_H, MPU6050_I2C_BUFFER_SIZE);
@@ -73,7 +73,7 @@ template<int buffer_size> int MPU6050<buffer_size>::readFullSensorState()
 }
 	
 //this function could serve as a really good example of how to write a byte to a location. Pretty easy once you get the hang of it
-template<int buffer_size> int MPU6050<buffer_size>::setPowerState(char powerState)
+int MPU6050::setPowerState(char powerState)
 {
 	
 	int status = this->writeI2CDeviceByte(MPU6050_PWR_MGMT_1, powerState);
@@ -103,7 +103,7 @@ template<int buffer_size> int MPU6050<buffer_size>::setPowerState(char powerStat
 	return (0);
 }
 
-template<int buffer_size> int MPU6050<buffer_size>::setOnboardSampleRate(char sampleRate)
+int MPU6050::setOnboardSampleRate(char sampleRate)
 {
 	int status = this->writeI2CDeviceByte(MPU6050_SMPLRT_DIV, sampleRate);
 	if (status > 0)
@@ -228,7 +228,7 @@ template<int buffer_size> int MPU6050<buffer_size>::setOnboardSampleRate(char sa
 	return (0);
 }
 
-template<int buffer_size> int MPU6050<buffer_size>::setLowPassBandwidth(char bandwidth)
+int MPU6050::setLowPassBandwidth(char bandwidth)
 {	
 	int status = this->writeI2CDeviceByte(MPU6050_CONFIG, bandwidth);
 	if (status > 0)
@@ -280,7 +280,7 @@ template<int buffer_size> int MPU6050<buffer_size>::setLowPassBandwidth(char ban
 	return (0);
 }
 
-template<int buffer_size> int MPU6050<buffer_size>::setGyroFullScaleRange(char gyroRange)
+int MPU6050::setGyroFullScaleRange(char gyroRange)
 {
 	int status = this->writeI2CDeviceByte(MPU6050_GYRO_CONFIG, gyroRange);
 	if (status > 0)
@@ -317,7 +317,7 @@ template<int buffer_size> int MPU6050<buffer_size>::setGyroFullScaleRange(char g
 	return (0);
 }
 
-template<int buffer_size> int MPU6050<buffer_size>::setAccelFullScaleRange(char accelRange)
+int MPU6050::setAccelFullScaleRange(char accelRange)
 {
 	int status = this->writeI2CDeviceByte(MPU6050_ACCEL_CONFIG, accelRange);
 	if (status > 0)
@@ -354,17 +354,17 @@ template<int buffer_size> int MPU6050<buffer_size>::setAccelFullScaleRange(char 
 	return (0);
 }
 	
-template<int buffer_size> float MPU6050<buffer_size>::getTemperature_degC()
+float MPU6050::getTemperature_degC()
 {
 	return (this->temperature / 340.0f) + 36.53f;
 }
 
-template<int buffer_size> float MPU6050<buffer_size>::getTemperature_degF()
+float MPU6050::getTemperature_degF()
 {
 	return (getTemperature_degC() * 1.8f) + 32;
 }
 	
-template<int buffer_size> float MPU6050<buffer_size>::getAccelerationX_g()
+float MPU6050::getAccelerationX_g()
 {
 	int accelX = this->accelerationX;
 	double fullIntRange = 32767.0; 
@@ -374,76 +374,76 @@ template<int buffer_size> float MPU6050<buffer_size>::getAccelerationX_g()
 	return answer;
 }
 
-template<int buffer_size> float MPU6050<buffer_size>::getAccelerationY_g()
+float MPU6050::getAccelerationY_g()
 {
 	return (this->accelerationY) / 32767.0f * (this->accel_range);
 }
 
-template<int buffer_size> float MPU6050<buffer_size>::getAccelerationZ_g()
+float MPU6050::getAccelerationZ_g()
 {
 	return (this->accelerationZ) / 32767.0f * (this->accel_range);
 }
 
-template<int buffer_size> float MPU6050<buffer_size>::getAccelerationX_m_s2()
+float MPU6050::getAccelerationX_m_s2()
 {
 	float answer = getAccelerationX_g() * 9.81;
 	
 	return answer;
 }
 
-template<int buffer_size> float MPU6050<buffer_size>::getAccelerationY_m_s2()
+float MPU6050::getAccelerationY_m_s2()
 {
 	return getAccelerationY_g() * 9.81;
 }
 
-template<int buffer_size> float MPU6050<buffer_size>::getAccelerationZ_m_s2()
+float MPU6050::getAccelerationZ_m_s2()
 {
 	return getAccelerationZ_g() * 9.81;
 }
 
-template<int buffer_size> float MPU6050<buffer_size>::getAccelerationX_ft_s2()
+float MPU6050::getAccelerationX_ft_s2()
 {
 	float answer = getAccelerationX_g() * 32.174;	
 	
 	return answer;
 }
 
-template<int buffer_size> float MPU6050<buffer_size>::getAccelerationY_ft_s2()
+float MPU6050::getAccelerationY_ft_s2()
 {
 	return getAccelerationY_g() * 32.174;
 }
 
-template<int buffer_size> float MPU6050<buffer_size>::getAccelerationZ_ft_s2()
+float MPU6050::getAccelerationZ_ft_s2()
 {
 	return getAccelerationZ_g() * 32.174;
 }
 	
-template<int buffer_size> float MPU6050<buffer_size>::getGyroRateX_rad_s()
+float MPU6050::getGyroRateX_rad_s()
 {
 	return getGyroRateX_deg_s() * PI / 180.0;
 }
 
-template<int buffer_size> float MPU6050<buffer_size>::getGyroRateY_rad_s()
+float MPU6050::getGyroRateY_rad_s()
 {
 	return getGyroRateY_deg_s() * PI / 180.0;
 }
 
-template<int buffer_size> float MPU6050<buffer_size>::getGyroRateZ_rad_s()
+float MPU6050::getGyroRateZ_rad_s()
 {
 	return getGyroRateZ_deg_s() * PI / 180.0;
 }
 
-template<int buffer_size> float MPU6050<buffer_size>::getGyroRateX_deg_s()
+float MPU6050::getGyroRateX_deg_s()
 {
 	return (this->gyroX) / 32767.0f * ((float)this->gyro_range);
 }
 
-template<int buffer_size> float MPU6050<buffer_size>::getGyroRateY_deg_s()
+float MPU6050::getGyroRateY_deg_s()
 {
 	return (this->gyroY) / 32767.0f * ((float)this->gyro_range);
 }
 
-template<int buffer_size> float MPU6050<buffer_size>::getGyroRateZ_deg_s()
+float MPU6050::getGyroRateZ_deg_s()
 {
 	return (this->gyroZ) / 32767.0f * ((float)this->gyro_range);
 }

@@ -3,7 +3,7 @@
 
 template<int buffer_size> class I2C_Device
 {
-private:
+protected:
 	int I2CBus, I2CAddress;	
 	
 	unsigned char dataBuffer[buffer_size];

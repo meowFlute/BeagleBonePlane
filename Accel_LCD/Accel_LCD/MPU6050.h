@@ -95,7 +95,7 @@
 #define	ACCELRANGE_plus_minus_8g		0b00010000
 #define	ACCELRANGE_plus_minus_16g		0b00011000
 
-template<int buffer_size> class MPU6050 : public I2C_Device<buffer_size>
+class MPU6050 : public I2C_Device<MPU6050_I2C_BUFFER_SIZE>
 {
 private:
 	int accelerationX;
