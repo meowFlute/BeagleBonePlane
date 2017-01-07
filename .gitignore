@@ -14,3 +14,7 @@
 *.lck
 *.npa00
 *.opendb
+*.cproject
+*.project
+Accel_LCD_makeFile/Accel_LCD
+*.o
